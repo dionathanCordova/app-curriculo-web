@@ -1,5 +1,7 @@
 import React from 'react'
-import { FiLogIn } from 'react-icons/fi';
+import { FiChevronLeft, FiMail, FiLock } from 'react-icons/fi';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 import {
    Container,
@@ -11,21 +13,22 @@ const Sigin = () => {
    return (
       <Container>
          <Content>
-            Começe a usar de graça
-            <h1>Faça seu cadastro</h1>
             <form action="">
-               <input type="E-mail" placeholder="E-mail"/>
+               Começe a usar de graça
+               <h1>Faça seu cadastro</h1>
 
-               <input type="password" placeholder="Senha"/>
+               <Input name="email" icon={FiMail} type="E-mail" placeholder="E-mail" />
+               <Input name="senha" icon={FiLock} type="password" placeholder="Senha"/>
+               <Input name="confirm_senha" icon={FiLock} type="e-password" placeholder="Confirme a Senha"/>
                
-               <button type="submit">Entrar</button>
+               <Button type="submit">Entrar</Button>
 
                <a href="#">Esqueçi minha senha</a>
             </form>
 
-            <a href="login">
-               <FiLogIn />
-               Criar conta
+            <a href="/">
+               <FiChevronLeft />
+               Voltar
             </a>
          </Content>
          <Background></Background>

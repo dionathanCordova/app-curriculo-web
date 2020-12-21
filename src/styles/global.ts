@@ -9,7 +9,7 @@ export default createGlobalStyle`
 	}
 
 	body{
-		background: #fcfcff;
+		background: #f8f8fa;
 		color: #312E38;
 		-webkit-font-smooting: antialiazed;
       font-family: 'Amaranth', sans-serif;

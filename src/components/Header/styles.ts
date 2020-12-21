@@ -1,48 +1,28 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+   height: 100px;
+   background-color: red;
 `
 export const Content = styled.div`
    display: flex;
    flex-direction: row;
-   justify-content: space-between;
-   padding: 3% 10%;
+   justify-content: space-around;
 
-   img{
-      width: 140px;
+   div {
+      display: flex;
+      flex-direction: row;
    }
 `
-
-export const BoxSign = styled.div`
-
-   /* width: 10rem; */
-
+export const BoxUserInfo = styled.div`
    display: flex;
    flex-direction: row;
-   justify-content: space-between;
+   justify-content: space-around;
+   align-items: center;
 
-   /* font-family: 'Concert One', cursive; */
-   /* font-family: 'Mitr', sans-serif; */
-
-   button {
-      font-size: 22px;
-      font-family: 'Amaranth', sans-serif;
-      margin-left: 20px;
-      height: 40px;
-      padding: 0 40px;
-      background: #fcfcff;
-      border: 0;
-      -webkit-box-shadow: 10px 10px 53px -27px rgba(0,0,0,0.75);
-         -moz-box-shadow: 10px 10px 53px -27px rgba(0,0,0,0.75);
-         box-shadow: 10px 10px 53px -27px rgba(0,0,0,0.75);
-
-      :hover{
-         background: #e97b3d;
-         color: #fcfcff;
-         border-radius: 20px;
-        
-      }
-
+   img{
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
    }
-
 `
