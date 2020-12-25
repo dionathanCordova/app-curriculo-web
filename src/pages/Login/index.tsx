@@ -1,9 +1,14 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
+import * as Yup from 'yup'
+
+import getValidationError from '../../utils/getValidationErrors';
+import AuthProvider from '../../contexts/Authcontext';
 
 import {
    Container,
@@ -11,15 +16,49 @@ import {
    Background
 } from './styles';
 
+interface DataProps{
+   email: string;
+   senha: string;
+}
+
 const Login = () => {
-   const handleSubmit = useCallback((data) => {
-      console.log(data)
-   }, [])
+   const formRef = useRef<FormHandles>(null);
+
+   const { SignIn } = useContext(AuthProvider);
+   const history = useHistory();
+
+   const handleSubmit = useCallback( async (data: DataProps) => {
+      try {
+
+         const { email, senha } = data;
+
+         formRef.current?.setErrors({});
+
+         const schema = Yup.object().shape({
+            email: Yup.string().email('Digite um email valido').required('Email é obrigatorio'),
+            senha: Yup.string().min(6, 'A senha deve contém no minimo 6 caracteres')
+         });
+   
+         await schema.validate(data, {
+            abortEarly: false,
+         });
+
+         const sign = await SignIn(email, senha);
+         if(sign.status) {
+            history.push('dashboard');
+         }
+      } catch (err) {
+         const errorInner = JSON.stringify(err.inner);
+
+         const errors = getValidationError(errorInner);
+         formRef.current?.setErrors(errors);
+      }
+   }, [SignIn])
 
    return (
       <Container>
          <Content>
-            <Form action="" onSubmit={handleSubmit}>
+            <Form ref={formRef} onSubmit={handleSubmit}>
                Começe a usar de graça
                <h1>Faça seu login</h1>
                <Input name="email" placeholder="E-mail" icon={FiMail} type="E-mail"/>
@@ -29,7 +68,7 @@ const Login = () => {
                   Entrar
                </Button>
 
-               <a href="#">Esqueçi minha senha</a>
+               <a href="/">Esqueçi minha senha</a>
             </Form>
 
             <Link to="/signin">

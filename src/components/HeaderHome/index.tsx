@@ -17,8 +17,8 @@ const Header = () => {
             <img src={icon} alt="" />
 
             <BoxSign>
-               <button onClick={() => handleGoToPage('/login')}>Sign in</button>
-               <button onClick={() => handleGoToPage('/signin')}>Log in</button>
+               <button onClick={() => handleGoToPage('/login')}>Log in</button>
+               <button onClick={() => handleGoToPage('/signin')}>Sign in</button>
             </BoxSign>
          </Content>
       </Container>
