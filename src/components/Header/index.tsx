@@ -1,5 +1,6 @@
-import React, { useCallback, useContext } from 'react'
-import { useHistory } from 'react-router-dom';
+import React, { useCallback, useContext, useEffect } from 'react'
+import { FiPower } from 'react-icons/fi';
+import { Link, useHistory } from 'react-router-dom';
 import icon from "../../assets/icon.png";
 import Sair from '../../assets/sair.svg';
 import AuthProvider from '../../contexts/Authcontext';
@@ -7,12 +8,22 @@ import AuthProvider from '../../contexts/Authcontext';
 import {
    Container,
    Content,
-   BoxUserInfo
+   Profile,
+   HeaderContent
 } from './styles';
 
-const Header = () => {
-   const {signed, SignOut} = useContext(AuthProvider);
+interface HeaderProps {
+   userName: string;
+   pathImage?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({userName, pathImage}) => {
+   const {signed, SignOut, user} = useContext(AuthProvider);
    const history = useHistory();
+
+   useEffect(() => {
+      console.log(user);
+   }, [user])
 
    const handleSignout = useCallback(async( ) => {
       const signout = await SignOut();
@@ -25,22 +36,21 @@ const Header = () => {
    return (
       <Container>
          <Content>
-            <div>
+            <HeaderContent>
                <img src={icon} alt="" width="140px"/>
                    
-               <BoxUserInfo>
-                  <img src="https://lh3.googleusercontent.com/ogw/ADGmqu9OZXlQpVNx-YEjPeRbfYRXfv9cZ9P3MzcqQrdD=s32-c-mo" alt="" width="100px"/>
+               <Profile>
+                  <img src={pathImage ? "https://lh3.googleusercontent.com/ogw/ADGmqu9OZXlQpVNx-YEjPeRbfYRXfv9cZ9P3MzcqQrdD=s32-c-mo": "https://eitrawmaterials.eu/wp-content/uploads/2016/09/empty-avatar.jpg"} alt="" width="100px"/>
                   <div>
                      <span>Bem vindo</span><br/>
-                     Dionathan de Córdova
+                     <Link to="profile">{userName}</Link> 
                   </div>
-               </BoxUserInfo>
-            </div>
+               </Profile>
         
-
-            <button onClick={() => handleSignout()}>
-               <img src={Sair} alt=""/>
-            </button>
+               <button type="button" onClick={() => handleSignout()}>
+                  <FiPower />
+               </button>
+            </HeaderContent>
          </Content>
       </Container>
    )

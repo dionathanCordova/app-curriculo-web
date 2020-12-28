@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup'
+import swal from "sweetalert";
 
 import getValidationError from '../../utils/getValidationErrors';
 import AuthProvider from '../../contexts/Authcontext';
@@ -46,6 +47,12 @@ const Login = () => {
          const sign = await SignIn(email, senha);
          if(sign.status) {
             history.push('dashboard');
+         }else{
+            swal({
+               title: "Ops!",
+               text: "Esta conta não existe",
+               icon: "warning",
+            });
          }
       } catch (err) {
          const errorInner = JSON.stringify(err.inner);

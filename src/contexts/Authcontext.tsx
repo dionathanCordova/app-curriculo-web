@@ -5,6 +5,15 @@ interface UserProps {
    id: string;
    name: string;
    email: string;
+   avatar: string;
+   whatsapp: string;
+   idade: string;
+   genero: string;
+   bio: string;
+   midias: string;
+   cidade: string;
+   estado: string;
+   bairro: string;
 }
 
 interface ResponseSigin {
@@ -46,30 +55,32 @@ export const AuthProvider: React.FC = ({ children }) => {
    })
 
    async function SignIn(email: string, password: string):Promise<SignedResult> {
-      const response = await api.post<ResponseSigin>('auth', {
-         email, 
-         password
-      })
-
-      console.log(response);
-      const { user, token, status } = response.data;
-
-      if(status === 200) {
-         localStorage.setItem("@Curriculo:user", JSON.stringify(user));
-         localStorage.setItem("@Curriculo:token", token);
+      try {
+         const response = await api.post<ResponseSigin>('auth', {
+            email, 
+            password
+         })
+         const { user, token, status } = response.data;
          
-         setUser(user);
-         setSigned(true);
-         setData({user, token});
+         if(status === 200) {
+            localStorage.setItem("@Curriculo:user", JSON.stringify(user));
+            localStorage.setItem("@Curriculo:token", token);
+            
+            setUser(user);
+            setSigned(true);
+            setData({user, token});
+            
+            return { status : true}
+         }
          
-         return { status : true}
+         setSigned(false);
+         setUser({} as UserProps);
+         setData({} as ResponseSigin);
+   
+         return { status: false};
+      } catch (error) {
+         return { status: false};     
       }
-      
-      setSigned(false);
-      setUser({} as UserProps);
-      setData({} as ResponseSigin);
-
-      return { status: false};
    }
 
    async function SignOut() {

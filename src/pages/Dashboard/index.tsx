@@ -6,18 +6,19 @@ import AuthProvider from '../../contexts/Authcontext';
 import { Container } from './styles';
 
 const Dashboard: React.FC = () => {
-   const {signed} = useContext(AuthProvider);
+   const {signed, user } = useContext(AuthProvider);
    const histoty = useHistory();
 
    useEffect(() => {
+      console.log(user);
       if(!signed) {
          histoty.push('/');
       }
-   }, [])
+   }, [histoty, signed])
 
    return (
       <Container>
-         <Header />
+         <Header userName={user.name ? user.name : "Usuário"}/>
          teste
       </Container>
    )

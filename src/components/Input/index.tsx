@@ -8,9 +8,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
    placeholder?: string;
    icon?: React.ComponentType<IconBaseProps>;
    name: string;
+   containerStyle?: object;
 }
 
-const Input: React.FC<InputProps> = ({ icon: Icon, name, ...rest }) => {
+const Input: React.FC<InputProps> = ({ icon: Icon, containerStyle, name, ...rest }) => {
    const [ isFocus, setIsFocus ] = useState(false);
    const [ isFilled, setIsFilled ] = useState(false);
  
@@ -32,13 +33,14 @@ const Input: React.FC<InputProps> = ({ icon: Icon, name, ...rest }) => {
    }, [])
 
    return (
-      <Container isErrored={!!error} isFocus={isFocus} isFilled={isFilled}> 
+      <Container style={containerStyle} isErrored={!!error} isFocus={isFocus} isFilled={isFilled}> 
          {Icon && <Icon size={20} />}
          <input 
             defaultValue={defaultValue} 
             ref={inputRef} {...rest} 
             onFocus={() => setIsFocus(true)}
             onBlur={handleOnBlur}
+            name={name}
          />
 
          {error && 
