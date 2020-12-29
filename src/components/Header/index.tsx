@@ -22,7 +22,6 @@ const Header: React.FC<HeaderProps> = ({userName, pathImage}) => {
    const history = useHistory();
 
    useEffect(() => {
-      console.log(user);
    }, [user])
 
    const handleSignout = useCallback(async( ) => {

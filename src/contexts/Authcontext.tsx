@@ -14,12 +14,13 @@ interface UserProps {
    cidade: string;
    estado: string;
    bairro: string;
+   password: string;
 }
 
 interface ResponseSigin {
    user: UserProps;
    token: string;
-   status?: number | boolean;
+   statusCode?: number | boolean;
 }
 
 interface SignedResult {
@@ -60,9 +61,9 @@ export const AuthProvider: React.FC = ({ children }) => {
             email, 
             password
          })
-         const { user, token, status } = response.data;
+         const { user, token, statusCode } = response.data;
          
-         if(status === 200) {
+         if(statusCode === 200) {
             localStorage.setItem("@Curriculo:user", JSON.stringify(user));
             localStorage.setItem("@Curriculo:token", token);
             

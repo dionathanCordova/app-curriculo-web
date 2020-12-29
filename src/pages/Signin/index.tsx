@@ -53,9 +53,8 @@ const Sigin = () => {
                   password: senha,
                });
 
-               if (user.data.status === 200) {
-                  const sign = await SignIn(user.data.user.user.email, senha);
-                  console.log(sign);
+               if (user.data.statusCode === 200) {
+                  await SignIn(user.data.user.user.email, senha);
                   history.push("dashboard");
                }
             } else {
@@ -66,6 +65,7 @@ const Sigin = () => {
                });
             }
          } catch (error) {
+            console.log(error);
             const errorInner = JSON.stringify(error.inner);
 
             const errors = getValidationError(errorInner);
@@ -96,10 +96,10 @@ const Sigin = () => {
                <Input
                   name="confirm_senha"
                   icon={FiLock}
-                  type="e-password"
+                  type="password"
                   placeholder="Confirme a Senha"
                />
-               <Button type="submit">Entrar</Button>
+               <Button type="submit">Cadastrar</Button>
                <a href="#">Esqueçi minha senha</a>
             </Form>
 

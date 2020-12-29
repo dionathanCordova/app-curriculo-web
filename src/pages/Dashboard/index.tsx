@@ -10,7 +10,6 @@ const Dashboard: React.FC = () => {
    const histoty = useHistory();
 
    useEffect(() => {
-      console.log(user);
       if(!signed) {
          histoty.push('/');
       }
@@ -18,8 +17,7 @@ const Dashboard: React.FC = () => {
 
    return (
       <Container>
-         <Header userName={user.name ? user.name : "Usuário"}/>
-         teste
+         <Header userName={user?.name ? user?.name : "Usuário"}/>
       </Container>
    )
 }

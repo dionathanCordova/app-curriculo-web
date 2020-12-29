@@ -60,7 +60,7 @@ const Login = () => {
          const errors = getValidationError(errorInner);
          formRef.current?.setErrors(errors);
       }
-   }, [SignIn])
+   }, [SignIn, history])
 
    return (
       <Container>
