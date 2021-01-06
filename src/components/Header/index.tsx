@@ -2,8 +2,9 @@ import React, { useCallback, useContext, useEffect } from 'react'
 import { FiPower } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 import icon from "../../assets/icon.png";
-import Sair from '../../assets/sair.svg';
 import AuthProvider from '../../contexts/Authcontext';
+import emptyAvatar from '../../assets/empty-avatar.png';
+import {  FiPaperclip } from 'react-icons/fi';
 
 import {
    Container,
@@ -36,10 +37,12 @@ const Header: React.FC<HeaderProps> = ({userName, pathImage}) => {
       <Container>
          <Content>
             <HeaderContent>
-               <img src={icon} alt="" width="140px"/>
+               {/* <img src={icon} alt="" width="140px"/> */}
+               {/* <h4>Currículo App </h4>
+               <FiPaperclip /> */}
                    
                <Profile>
-                  <img src={pathImage ? "https://lh3.googleusercontent.com/ogw/ADGmqu9OZXlQpVNx-YEjPeRbfYRXfv9cZ9P3MzcqQrdD=s32-c-mo": "https://eitrawmaterials.eu/wp-content/uploads/2016/09/empty-avatar.jpg"} alt="" width="100px"/>
+                  <img src={pathImage ? `${process.env.REACT_APP_FILES}/${pathImage}` : emptyAvatar} alt="" width="100px"/>
                   <div>
                      <span>Bem vindo</span><br/>
                      <Link to="profile">{userName}</Link> 

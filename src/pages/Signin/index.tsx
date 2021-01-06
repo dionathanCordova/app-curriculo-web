@@ -48,14 +48,22 @@ const Sigin = () => {
             });
 
             if (senha === confirm_senha) {
-               const user = await api.post("users-create", {
-                  email,
-                  password: senha,
-               });
-
-               if (user.data.statusCode === 200) {
-                  await SignIn(user.data.user.user.email, senha);
-                  history.push("dashboard");
+               try {
+                  const user = await api.post("users-create", {
+                     email,
+                     password: senha,
+                  });
+   
+                  if (user.data.statusCode === 200) {
+                     await SignIn(user.data.user.user.email, senha);
+                     history.push("dashboard");
+                  }
+               } catch (error) {
+                  swal({
+                     title: "Ops!",
+                     text: "Algo errado no sistema.",
+                     icon: "warning",
+                  });
                }
             } else {
                swal({

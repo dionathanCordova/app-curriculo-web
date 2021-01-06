@@ -33,9 +33,7 @@ export const BoxSign = styled.div`
       background: #fcfcff;
       border-radius: 20px;
       border: 0;
-      /* -webkit-box-shadow: 10px 10px 53px -27px rgba(0,0,0,0.75); */
-         /* -moz-box-shadow: 10px 10px 53px -27px rgba(0,0,0,0.75); */
-         box-shadow: 10px 10px 53px -17px rgba(0,0,0,0.75);
+      box-shadow: 10px 10px 53px -17px rgba(0,0,0,0.75);
 
       :hover{
          background: #e97b3d;
