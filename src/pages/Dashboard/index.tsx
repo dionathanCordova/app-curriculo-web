@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import AuthProvider from '../../contexts/Authcontext';
@@ -9,7 +9,6 @@ import { Container, Content, ContentHeader, ContentBody } from './styles';
 
 const Dashboard: React.FC = () => {
    const {signed, user } = useContext(AuthProvider);
-   const [userAvatar, setUserAvatar] = useState()
    const histoty = useHistory();
 
    useEffect(() => {
@@ -18,6 +17,11 @@ const Dashboard: React.FC = () => {
       }
 
    }, [histoty, signed])
+
+   const handleAddCurriculo = useCallback(() => {
+      console.log('teste');
+      histoty.push('/create-cv');
+   }, [histoty]);
 
    return (
       <Container>
@@ -30,7 +34,7 @@ const Dashboard: React.FC = () => {
                   <h5>Organize seu currículos, todos serão separados por categoria</h5>
                </div>
 
-               <button>
+               <button onClick={handleAddCurriculo}>
                   <FiPlus size={32} color="#FFF"/>
                </button>
             </ContentHeader>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { shade } from 'polished';
 
 export const Container = styled.div`
    font-family: 'Amaranth', sans-serif;
@@ -20,11 +21,19 @@ export const ContentHeader = styled.div`
    }
 
    button{
+      display:flex;
+      justify-content: center;
+      align-items:center;
       width: 50px;
       height: 50px;
       border-radius: 50%;
       border: 0;
       background: #333;
+      transition: background 0.2s;
+
+      :hover{
+         background: ${shade(0.5, '#FFF')};
+      }
    }
 `
 

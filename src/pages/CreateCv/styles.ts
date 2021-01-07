@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {shade}  from 'polished';
+import { shade } from 'polished';
 
 export const Container = styled.div`
    font-family: 'Amaranth', sans-serif;
@@ -35,13 +35,20 @@ export const Content = styled.div`
    width: 100%;
 
    form{
-      margin: 80px 0;
+      position: relative;
+      align-self: center;
+      
+      margin: auto;
+      margin-top: 200px;
+
       width:340px;
       text-align:center;
       display: flex;
       flex-direction: column;
 
       h1{
+
+         color: #000;
          margin-bottom: 24px;
          font-size: 20px;
          text-align: left;
@@ -57,54 +64,6 @@ export const Content = styled.div`
          &:hover{
             color: ${shade(0.2, "#f4ede8")};
          }
-      }
-   }
-`
-
-export const AvatarInput = styled.div`
-
-   margin-bottom: 32px;
-   position: relative;
-   align-self: center;
-
-   img{
-      max-width: 150px;
-      max-height: 150px;
-      border-radius: 50%;
-      min-height: 150px;
-      min-width: 150px;
-   }
-
-   place-content: center;
-
-   label{
-      position: absolute;
-      width: 48px;
-      height: 48px;
-      background: #ff9000;
-      border-radius: 60%;
-      right: 0;
-      bottom: 0;
-      border: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      cursor: pointer;
-
-      input {
-         display: none;
-      }
-
-      svg {
-         width: 20px;
-         color:#FFF;
-         height: 20px;
-      }
-
-      &:hover{
-         background: ${shade(0.2, '#ff9000')}
       }
    }
 `
