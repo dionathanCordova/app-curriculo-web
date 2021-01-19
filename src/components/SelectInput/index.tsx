@@ -1,15 +1,22 @@
+/* eslint-disable array-callback-return */
 import React, { InputHTMLAttributes, useCallback, useEffect, useRef, useState } from "react";
 import { IconBaseProps } from "react-icons/lib";
 import { useField } from "@unform/core";
 import { FiAlertCircle } from 'react-icons/fi';
 import { Container, Error } from "./styles";
 
+interface JobProps {
+   id: string;
+   name: string;
+   icon_path: string;
+}
 interface InputProps extends InputHTMLAttributes<HTMLSelectElement> {
    name: string;
    icon?: React.ComponentType<IconBaseProps>;
+   jobsData: JobProps[];
 }
 
-const SelectInput: React.FC<InputProps> = ({ icon: Icon, name, ...rest }) => {
+const SelectInput: React.FC<InputProps> = ({ icon: Icon, name, jobsData, ...rest }) => {
    const [ isFocus, setIsFocus ] = useState(false);
    const [ isFilled, setIsFilled ] = useState(false);
 
@@ -22,7 +29,9 @@ const SelectInput: React.FC<InputProps> = ({ icon: Icon, name, ...rest }) => {
          ref: inputRef.current,
          path: 'value'
       })
-   }, [fieldName, registerField]);
+
+      // console.log(jobsData);
+   }, [fieldName, registerField, jobsData]);
 
    const handleOnBlur = useCallback(() => {
       setIsFocus(false);
@@ -40,8 +49,12 @@ const SelectInput: React.FC<InputProps> = ({ icon: Icon, name, ...rest }) => {
             onFocus={() => setIsFocus(true)}
             onBlur={handleOnBlur}
             name={name}>
-            <option value="1">Programação</option>
-            <option value="2">Recepcionista</option>
+
+            {jobsData && jobsData.map((job) => {
+               return (
+                  <option key={job.id} value="2">{job.name}</option>
+               )
+            })}
          </select>
 
          {error && 

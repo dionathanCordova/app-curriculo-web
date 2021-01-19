@@ -51,6 +51,7 @@ export const HeaderContent = styled.div`
    margin: 0 auto;
    display: flex;
    align-items: center;
+   justify-content: space-between;
 
    button {
       margin-left: auto;
@@ -62,5 +63,21 @@ export const HeaderContent = styled.div`
          width: 20px;
          height: 20px;
       }
+   }
+`
+
+export const InfoAdicional = styled.div`
+   margin-left: 200px;
+
+   display: flex;
+   justify-content: space-between;
+
+   a {
+      text-decoration: none;
+      color: #999191;
+   }
+
+   a + a {
+      padding-left: 100px;
    }
 `

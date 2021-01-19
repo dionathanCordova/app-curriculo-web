@@ -19,7 +19,7 @@ const Dashboard: React.FC = () => {
    }, [histoty, signed])
 
    const handleAddCurriculo = useCallback(() => {
-      console.log('teste');
+      // console.log('teste');
       histoty.push('/create-cv');
    }, [histoty]);
 

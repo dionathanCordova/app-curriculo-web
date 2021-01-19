@@ -10,7 +10,8 @@ import {
    Container,
    Content,
    Profile,
-   HeaderContent
+   HeaderContent,
+   InfoAdicional
 } from './styles';
 
 interface HeaderProps {

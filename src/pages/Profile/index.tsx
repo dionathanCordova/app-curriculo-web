@@ -27,7 +27,6 @@ const Profile: React.FC = () => {
    const history = useHistory();
 
    useEffect(() => {
-      console.log(process.env.REACT_APP_FILES);
       if(!signed) {
          history.push('/');
       }
@@ -43,7 +42,7 @@ const Profile: React.FC = () => {
          formData.append('avatar', e.target.files[0]);
          const userUpdate = await api.patch(`users/avatar/${user.id}`, formData);
 
-         console.log(userUpdate.data);
+         console.log(userUpdate);
          UpdateUser(userUpdate.data);
       }
    }, [UpdateUser, user.id])
