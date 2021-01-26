@@ -36,19 +36,16 @@ export const Content = styled.div`
 
    form{
       position: relative;
-      align-self: center;
       
       margin: auto;
       margin-top: 200px;
       margin-bottom: 200px;
 
       width:340px;
-      text-align:center;
       display: flex;
       flex-direction: column;
 
       h1{
-
          color: #000;
          margin-bottom: 24px;
          font-size: 20px;

@@ -8,11 +8,14 @@ interface ContainerProps  {
    isErrored: boolean;
 }
 
+export const Label = styled.label`
+`
 export const Container = styled.div<ContainerProps>`
    background: #FFF;
    border-radius: 6px;
    border: 0.001px solid #232129;
    padding:16px;
+   margin: 10px 0;
    color: #666360;
 
    display: flex;

@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, {
+   useCallback,
+   useContext,
+   useEffect,
+   useRef,
+   useState,
+} from "react";
 
 import { Link, useHistory } from "react-router-dom";
 import { FormHandles } from "@unform/core";
@@ -42,9 +48,12 @@ interface ExperienciaProp {
    id: number;
    cargo: string;
    empresa: string;
-   atribuicao: string;
-   salarioFinal: string;
-   tempoServico: string;
+   atribuicoes: string;
+   salario_final: string;
+   data_fim: string;
+   data_inicio: string;
+   atual: boolean;
+   ferramentas: string;
 }
 
 interface CursoProp {
@@ -70,14 +79,18 @@ const CreateCv: React.FC = () => {
    const [escolaridade, setEscolaridade] = useState<EscolaridadeProp[]>([
       { id: 0, instituicao: "", curso: "", situacao: "" },
    ]);
+
    const [experiencia, setExperiencia] = useState<ExperienciaProp[]>([
       {
          id: 0,
          cargo: "",
          empresa: "",
-         atribuicao: "",
-         salarioFinal: "",
-         tempoServico: "",
+         atribuicoes: "",
+         salario_final: "",
+         data_fim: "",
+         data_inicio: "",
+         atual: false,
+         ferramentas: "",
       },
    ]);
    const [cursos, setCursos] = useState<CursoProp[]>([{ id: 0, titulo: "" }]);
@@ -90,27 +103,30 @@ const CreateCv: React.FC = () => {
       },
    ]);
 
-   const handleSubmit = useCallback(async (data) => {
-      console.log(data);
-      console.log(escolaridade);
-      console.log(experiencia);
-      console.log(cursos);
+   const handleSubmit = useCallback(
+      async (data) => {
+         console.log(data);
+         console.log(escolaridade);
+         console.log(experiencia);
+         console.log(cursos);
 
-      const createEscolaridade = await api.post(`escolaridade/create/${user.id}`, {
-         escolaridade
-      });
+         const createEscolaridade = await api.post(`escolaridade/create/${user.id}`, {
+               escolaridade,
+            }
+         );
 
-      if(createEscolaridade) {
-         history.push('/dashboard');
-      }
-      
-      console.log(createEscolaridade);
-     
-      // escolaridade/create
-      // console.log("teste");
+         const createExperiencia = await api.post(`experiencia/create/${user.id}`, {
+            experiencia
+         })
 
-      // console.log(escolaridadeIndexArray);
-   }, [escolaridade, experiencia, cursos]);
+         if (createEscolaridade && createExperiencia) {
+            history.push("/dashboard");
+         }
+
+         console.log(createExperiencia);
+      },
+      [escolaridade, experiencia, cursos]
+   );
 
    useEffect(() => {
       (async function anyNameFunction() {
@@ -147,11 +163,14 @@ const CreateCv: React.FC = () => {
          ...current,
          {
             id: idGerenate,
-            atribuicao: "",
-            cargo: "",
             empresa: "",
-            salarioFinal: "",
-            tempoServico: "",
+            salario_final: "",
+            cargo: "",
+            atribuicoes: "",
+            data_fim: "",
+            data_inicio: "",
+            atual: false,
+            ferramentas: "",
          },
       ]);
    }, [experienciaIndex, experiencia]);
@@ -311,10 +330,10 @@ const CreateCv: React.FC = () => {
                               placeholder="Empresa"
                               defaultValue={element.empresa}
                               onChange={(e) => {
-                                 const cargo = e.target.value;
+                                 const empresa = e.target.value;
                                  setExperiencia((current) =>
                                     produce(current, (v) => {
-                                       v[index].empresa = cargo;
+                                       v[index].empresa = empresa;
                                     })
                                  );
                               }}
@@ -324,12 +343,27 @@ const CreateCv: React.FC = () => {
                               name="atribuicao"
                               icon={FiUser}
                               placeholder="Atribuíções da função"
-                              defaultValue={element.atribuicao}
+                              defaultValue={element.atribuicoes}
                               onChange={(e) => {
-                                 const cargo = e.target.value;
+                                 const atribuicoes = e.target.value;
                                  setExperiencia((current) =>
                                     produce(current, (v) => {
-                                       v[index].atribuicao = cargo;
+                                       v[index].atribuicoes = atribuicoes;
+                                    })
+                                 );
+                              }}
+                           />
+
+                           <Input
+                              name="atribuicao"
+                              icon={FiUser}
+                              placeholder="Atribuíções da função"
+                              defaultValue={element.ferramentas}
+                              onChange={(e) => {
+                                 const ferramentas = e.target.value;
+                                 setExperiencia((current) =>
+                                    produce(current, (v) => {
+                                       v[index].ferramentas = ferramentas;
                                     })
                                  );
                               }}
@@ -339,28 +373,46 @@ const CreateCv: React.FC = () => {
                               name="salarioFinal"
                               icon={FiUser}
                               placeholder="Salário Final"
-                              defaultValue={element.salarioFinal}
+                              defaultValue={element.salario_final}
                               onChange={(e) => {
-                                 const cargo = e.target.value;
+                                 const salario_final = e.target.value;
                                  setExperiencia((current) =>
                                     produce(current, (v) => {
-                                       v[index].salarioFinal = cargo;
+                                       v[index].salario_final = salario_final;
                                     })
                                  );
                               }}
                            />
 
                            <Input
-                              name="tempoServico"
+                              label="Data de inicio"
+                              name="data_inicio"
+                              type="date"
                               icon={FiUser}
                               placeholder="Tempo de Serviço"
-                              defaultValue={element.tempoServico}
-                              id="tempoServico"
+                              id="data_inicio"
                               onChange={(e) => {
-                                 const cargo = e.target.value;
+                                 const data_inicio = e.target.value;
                                  setExperiencia((current) =>
                                     produce(current, (v) => {
-                                       v[index].tempoServico = cargo;
+                                       v[index].data_inicio = data_inicio;
+                                    })
+                                 );
+                              }}
+                           />
+
+                           <Input
+                              label="Data de termino"
+                              name="data_fim"
+                              type="date"
+                              icon={FiUser}
+                              placeholder="Tempo de Serviço"
+                              id="data_fim"
+                              onChange={(e) => {
+                                 const data_fim = e.target.value;
+                                 setExperiencia((current) =>
+                                    produce(current, (v) => {
+                                       v[index].data_fim = data_fim;
                                     })
                                  );
                               }}
