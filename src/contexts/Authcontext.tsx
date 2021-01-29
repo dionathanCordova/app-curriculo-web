@@ -15,7 +15,14 @@ interface UserProps {
    estado: string;
    bairro: string;
    password: string;
+   // profissoes: ProfissaoProps[];
 }
+
+// interface ProfissaoProps {
+   // id: string;
+   // name: string;
+   // icon_path: string;
+// }
 
 interface ResponseSigin {
    user: UserProps;

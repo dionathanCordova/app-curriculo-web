@@ -83,7 +83,7 @@ const Profile: React.FC = () => {
          })
 
          try {
-            const response = await api.post(`update-user/${userId?.id}`, data)
+            const response = await api.post(`users/update/${userId?.id}`, data)
             
             if(response.data.status) {
                UpdateUser(response.data.user);

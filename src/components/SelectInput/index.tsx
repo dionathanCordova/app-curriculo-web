@@ -14,9 +14,10 @@ interface InputProps extends InputHTMLAttributes<HTMLSelectElement> {
    name: string;
    icon?: React.ComponentType<IconBaseProps>;
    jobsData: JobProps[];
+   isHidden?: boolean;
 }
 
-const SelectInput: React.FC<InputProps> = ({ icon: Icon, name, jobsData, ...rest }) => {
+const SelectInput: React.FC<InputProps> = ({ icon: Icon, name, isHidden, jobsData, ...rest }) => {
    const [ isFocus, setIsFocus ] = useState(false);
    const [ isFilled, setIsFilled ] = useState(false);
 
@@ -40,7 +41,7 @@ const SelectInput: React.FC<InputProps> = ({ icon: Icon, name, jobsData, ...rest
    }, [])
    
    return (
-      <Container isErrored={!!error} isFocus={isFocus} isFilled={isFilled}> 
+      <Container isHidden={!!isHidden} isErrored={!!error} isFocus={isFocus} isFilled={isFilled}> 
          {Icon && <Icon size={20} />}
 
          <select 
@@ -52,7 +53,7 @@ const SelectInput: React.FC<InputProps> = ({ icon: Icon, name, jobsData, ...rest
 
             {jobsData && jobsData.map((job) => {
                return (
-                  <option key={job.id} value="2">{job.name}</option>
+                  <option key={job.id} value={job.id}>{job.name}</option>
                )
             })}
          </select>

@@ -45,6 +45,25 @@ export const Content = styled.div`
       display: flex;
       flex-direction: column;
 
+      button.CadastroProfissao{
+         border: 0;
+         margin: 10px 0;
+         display:flex;
+         justify-content: center;
+         align-items:center;
+         border-radius: 5px;
+         height: 40px;
+         border: 0;
+         background: #333;
+         transition: background 0.2s;
+         color: #FFF;
+         font-weight: 500;
+
+         :hover{
+            background: ${shade(0.5, '#FFF')};
+         }
+      }
+
       h1{
          color: #000;
          margin-bottom: 24px;

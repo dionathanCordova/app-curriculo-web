@@ -10,9 +10,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
    name: string;
    containerStyle?: object;
    label?: string;
+   isHidden?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ icon: Icon, containerStyle, label, name, ...rest }) => {
+const Input: React.FC<InputProps> = ({ icon: Icon, containerStyle, label, isHidden, name, ...rest }) => {
    const [ isFocus, setIsFocus ] = useState(false);
    const [ isFilled, setIsFilled ] = useState(false);
  
@@ -37,7 +38,7 @@ const Input: React.FC<InputProps> = ({ icon: Icon, containerStyle, label, name, 
       <>
          {label && <Label htmlFor={name}>{label}</Label>}
 
-         <Container style={containerStyle} isErrored={!!error} isFocus={isFocus} isFilled={isFilled}> 
+         <Container style={containerStyle} isHidden={!!isHidden} isErrored={!!error} isFocus={isFocus} isFilled={isFilled}> 
             {Icon && <Icon size={20} />}
 
             <input 

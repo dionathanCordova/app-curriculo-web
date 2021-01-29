@@ -49,7 +49,7 @@ const Sigin = () => {
 
             if (senha === confirm_senha) {
                try {
-                  const user = await api.post("users-create", {
+                  const user = await api.post("users/create", {
                      email,
                      password: senha,
                   });

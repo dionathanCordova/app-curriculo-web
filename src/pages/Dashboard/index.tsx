@@ -5,16 +5,51 @@ import AuthProvider from '../../contexts/Authcontext';
 import { FiPlus, FiCode, FiPhoneCall } from 'react-icons/fi';
 import { FaDoorOpen, FaCalculator } from 'react-icons/fa';
 
+import Code from '../../assets/ICON_JOBS/code.svg';
+
 import { Container, Content, ContentHeader, ContentBody } from './styles';
+import api from '../../services/api';
+
+interface ProfissoesProps {
+   id: string;
+   name: string;
+   icon_path: string;
+}
+
+
+interface CurriculoProps {
+   id: string;
+   user_id: string;
+   profissao_id: string;
+   profissao: ProfissoesProps
+}
 
 const Dashboard: React.FC = () => {
    const {signed, user } = useContext(AuthProvider);
+   const [ profissoes, setProfissoes ] = useState<ProfissoesProps[]>([]);
+   const [ curriculos, setCurriculos ] = useState<CurriculoProps[]>([]);
    const histoty = useHistory();
 
    useEffect(() => {
       if(!signed) {
          histoty.push('/');
       }
+
+      // async function getProfissoes() {
+      //    await api.get('profissoes').then(respose => {
+      //       setProfissoes(respose.data)
+      //    })
+      // } 
+     
+      async function getCurriculos() {
+         await api.get(`curriculo/user/${user.id}`).then(response => {
+            // console.log(response.data);
+            // setProfissoes(response.data[0].profissao);
+            setCurriculos(response.data);
+         })
+      } 
+
+      getCurriculos();
 
    }, [histoty, signed])
 
@@ -40,29 +75,15 @@ const Dashboard: React.FC = () => {
             </ContentHeader>
 
             <ContentBody>
-               <div className="card">
-                  <h4>Programador</h4> 
-
-                  <FiCode />
-               </div>
-
-               <div className="card">
-                  <h4>Recepcionista</h4> 
-
-                  <FiPhoneCall />
-               </div>
-
-               <div className="card">
-                  <h4>Porteiro</h4> 
-
-                  <FaDoorOpen />
-               </div>
-
-               <div className="card">
-                  <h4>Contador</h4> 
-
-                  <FaCalculator />
-               </div>
+               {curriculos.map(curr => {
+                  return (
+                     <div className="card" key={curr.profissao.id}>
+                        <h4>{curr.profissao.name}</h4> 
+                        <img src={`${process.env.REACT_APP_FILES}${curr.profissao.icon_path}`} alt=""/>
+                     </div>
+                  )
+               })}
+               
             </ContentBody>
          </Content>
       </Container>

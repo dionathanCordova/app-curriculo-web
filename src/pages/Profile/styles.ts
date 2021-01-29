@@ -41,6 +41,11 @@ export const Content = styled.div`
       display: flex;
       flex-direction: column;
 
+      div{
+         display: flex;
+         flex-direction: row;
+      }
+
       h1{
          margin-bottom: 24px;
          font-size: 20px;

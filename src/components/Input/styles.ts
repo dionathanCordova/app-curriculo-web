@@ -6,6 +6,7 @@ interface ContainerProps  {
    isFocus: boolean;
    isFilled: boolean;
    isErrored: boolean;
+   isHidden: boolean;
 }
 
 export const Label = styled.label`
@@ -20,6 +21,7 @@ export const Container = styled.div<ContainerProps>`
 
    display: flex;
    align-items: center;
+   justify-content:center;
 
    & + div {
       margin-top: 8px;
@@ -38,11 +40,20 @@ export const Container = styled.div<ContainerProps>`
       border-color: #8558e3;
    `}
 
+   ${props => props.isHidden && css`
+      display: none;
+   `}
+
+   ${props => !props.isHidden && css`
+      display: block;
+   `}
+
    input {
       font-family: 'Amaranth', sans-serif;
       flex: 1;
       border: 0;
       background: transparent;
+      width: 100%;
       color: #666360;
 
       &::placeholder{

@@ -6,6 +6,7 @@ interface ContainerProps  {
    isFocus: boolean;
    isFilled: boolean;
    isErrored: boolean;
+   isHidden: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -33,6 +34,10 @@ export const Container = styled.div<ContainerProps>`
    ${props => props.isFocus && css`
       color: #8558e3;
       border-color: #8558e3;
+   `}
+
+   ${props => props.isHidden && css`
+      display: none;
    `}
 
    select {

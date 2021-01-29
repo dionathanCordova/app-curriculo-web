@@ -56,5 +56,9 @@ export const ContentBody = styled.div`
       background: #FFF;
       border: 1px solid #ddd;
       box-shadow: 10px 10px 53px -17px rgba(0,0,0,0.75);
+
+      img {
+         width: 40px;
+      }
    }
 `

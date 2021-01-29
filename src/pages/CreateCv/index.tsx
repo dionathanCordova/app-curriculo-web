@@ -28,8 +28,8 @@ import SelectInput from "../../components/SelectInput";
 import Button from "../../components/Button";
 import api from "../../services/api";
 import EscolaridadeFields from "../../components/EscolaridadeFields";
-import { string } from "yup";
 import AuthContext from "../../contexts/Authcontext";
+import swal from "sweetalert";
 
 interface JobProps {
    id: string;
@@ -67,6 +67,9 @@ const CreateCv: React.FC = () => {
    const history = useHistory();
 
    const formRef = useRef<FormHandles>(null);
+   const [ hiddenNewJobTitle, setHiddenNewJobTitle ] = useState(true);
+   const [ profissaoCreate, setProfissaoCreate ] = useState('');
+
    const [escolaridadeIndex, setEscolaridadeIndex] = useState(0);
    const [escolaridadeIndexArray, setEscolaridadeIndexArray] = useState([0]);
 
@@ -105,25 +108,42 @@ const CreateCv: React.FC = () => {
 
    const handleSubmit = useCallback(
       async (data) => {
+         const profissao_id = data.profissao;
+         console.log(profissao_id);
+
          console.log(data);
          console.log(escolaridade);
          console.log(experiencia);
          console.log(cursos);
 
-         const createEscolaridade = await api.post(`escolaridade/create/${user.id}`, {
-               escolaridade,
+         // const createEscolaridade = await api.post(
+         //    `escolaridade/create/${user.id}`,
+         //    {
+         //       escolaridade,
+         //    }
+         // );
+
+         const createExperiencia = await api.post(
+            `experiencia/create/${user.id}`,
+            {
+               experiencia,
+               profissao_id
             }
          );
 
-         const createExperiencia = await api.post(`experiencia/create/${user.id}`, {
-            experiencia
-         })
-
-         if (createEscolaridade && createExperiencia) {
-            history.push("/dashboard");
+         if(createExperiencia.data.status === 'error') {
+            swal({
+               title: "Ops!",
+               text: createExperiencia.data.message,
+               icon: "warning",
+            });
          }
 
-         console.log(createExperiencia);
+         // if (createEscolaridade && createExperiencia) {
+         //    history.push("/dashboard");
+         // }
+
+         console.log(createExperiencia.data.status);
       },
       [escolaridade, experiencia, cursos]
    );
@@ -190,6 +210,14 @@ const CreateCv: React.FC = () => {
       ]);
    }, [cursosIndex, cursos]);
 
+   const handleChangeFieldProfissao = useCallback(() => {
+      setHiddenNewJobTitle(!hiddenNewJobTitle);
+
+      if(!hiddenNewJobTitle) {
+         setProfissaoCreate('');
+      }
+   }, [hiddenNewJobTitle])
+
    return (
       <Container>
          <header>
@@ -204,10 +232,23 @@ const CreateCv: React.FC = () => {
             <Form ref={formRef} onSubmit={handleSubmit}>
                <h1>Cadastro de currículo</h1>
                <SelectInput
-                  icon={FiBriefcase}
+                  isHidden={!hiddenNewJobTitle}
                   name="profissao"
                   jobsData={jobs}
                />
+
+               {/* <Input
+                  isHidden={hiddenNewJobTitle}
+                  onChange={(e) => setProfissaoCreate(e.target.value)}
+                  value={profissaoCreate}
+                  name="profissaoCreate"
+                  placeholder="Nova profissão"
+               />
+
+               <button type="button" onClick={handleChangeFieldProfissao} className="CadastroProfissao">
+                  {hiddenNewJobTitle ? 'Cadastrar nova profissão' : ' Usar profissões cadastradas'}
+               </button> */}
+
                <BoxInfo>
                   <h3>Escolaridade</h3>
                   <button onClick={handleAddEscolaridadeField} type="button">
@@ -237,7 +278,6 @@ const CreateCv: React.FC = () => {
                            <Input
                               defaultValue={element.instituicao}
                               name="instituicao"
-                              icon={FiUser}
                               placeholder="Instituição"
                               onChange={(e) => {
                                  const instituicao = e.target.value;
@@ -252,7 +292,6 @@ const CreateCv: React.FC = () => {
                            <Input
                               defaultValue={element.curso}
                               name="curso"
-                              icon={FiUser}
                               placeholder="Curso"
                               onChange={(e) => {
                                  const curso = e.target.value;
@@ -267,7 +306,6 @@ const CreateCv: React.FC = () => {
                            <Input
                               defaultValue={element.situacao}
                               name="situação"
-                              icon={FiUser}
                               placeholder="Situação: ex cursando ..."
                               onChange={(e) => {
                                  const situacao = e.target.value;
@@ -311,7 +349,6 @@ const CreateCv: React.FC = () => {
 
                            <Input
                               name="cargo"
-                              icon={FiUser}
                               placeholder="Cargo"
                               defaultValue={element.cargo}
                               onChange={(e) => {
@@ -326,7 +363,6 @@ const CreateCv: React.FC = () => {
 
                            <Input
                               name="empresa"
-                              icon={FiUser}
                               placeholder="Empresa"
                               defaultValue={element.empresa}
                               onChange={(e) => {
@@ -341,7 +377,6 @@ const CreateCv: React.FC = () => {
 
                            <Input
                               name="atribuicao"
-                              icon={FiUser}
                               placeholder="Atribuíções da função"
                               defaultValue={element.atribuicoes}
                               onChange={(e) => {
@@ -356,7 +391,6 @@ const CreateCv: React.FC = () => {
 
                            <Input
                               name="atribuicao"
-                              icon={FiUser}
                               placeholder="Atribuíções da função"
                               defaultValue={element.ferramentas}
                               onChange={(e) => {
@@ -371,7 +405,6 @@ const CreateCv: React.FC = () => {
 
                            <Input
                               name="salarioFinal"
-                              icon={FiUser}
                               placeholder="Salário Final"
                               defaultValue={element.salario_final}
                               onChange={(e) => {
@@ -388,7 +421,6 @@ const CreateCv: React.FC = () => {
                               label="Data de inicio"
                               name="data_inicio"
                               type="date"
-                              icon={FiUser}
                               placeholder="Tempo de Serviço"
                               id="data_inicio"
                               onChange={(e) => {
@@ -405,7 +437,6 @@ const CreateCv: React.FC = () => {
                               label="Data de termino"
                               name="data_fim"
                               type="date"
-                              icon={FiUser}
                               placeholder="Tempo de Serviço"
                               id="data_fim"
                               onChange={(e) => {

@@ -29,6 +29,11 @@ export const Content = styled.div`
       width: 340px;
       text-align: center;
 
+      div{
+         display:flex;
+         align-items:center;
+      }
+
       a {
          color: #232129;
          display: block;
