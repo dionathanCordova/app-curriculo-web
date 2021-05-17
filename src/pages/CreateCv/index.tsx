@@ -19,6 +19,7 @@ import {
    FiBriefcase,
    FiPlus,
    FiTrash,
+   FiSave,
 } from "react-icons/fi";
 
 import { Container, Content, BoxInfo } from "./styles";
@@ -56,6 +57,10 @@ interface ExperienciaProp {
    ferramentas: string;
 }
 
+interface CreateExperienciaProps {
+   experiencia: ExperienciaProp[];
+}
+
 interface CursoProp {
    id: number;
    titulo: string;
@@ -67,8 +72,8 @@ const CreateCv: React.FC = () => {
    const history = useHistory();
 
    const formRef = useRef<FormHandles>(null);
-   const [ hiddenNewJobTitle, setHiddenNewJobTitle ] = useState(true);
-   const [ profissaoCreate, setProfissaoCreate ] = useState('');
+   const [hiddenNewJobTitle, setHiddenNewJobTitle] = useState(true);
+   const [profissaoCreate, setProfissaoCreate] = useState("");
 
    const [escolaridadeIndex, setEscolaridadeIndex] = useState(0);
    const [escolaridadeIndexArray, setEscolaridadeIndexArray] = useState([0]);
@@ -106,6 +111,35 @@ const CreateCv: React.FC = () => {
       },
    ]);
 
+   async function cadastroExperiencia(
+      experiencia: CreateExperienciaProps,
+      profissao_id: string
+   ) {
+      const createExperiencia = await api.post(
+         `experiencia/create/${user.id}`,
+         {
+            experiencia,
+            profissao_id,
+         }
+      );
+
+      return createExperiencia;
+   }
+
+   const handleProfissao = new Promise((novaProfissao) => {
+      return novaProfissao;
+      // const cadastroProfissao = api.post('profissoes/create', {
+      //    name: novaProfissao
+      // })
+   });
+
+   async function handleAddProfissao(novaProfissao: string) {
+      const cadastroProfissao = await api.post("profissoes/create", {
+         name: novaProfissao,
+      });
+      return cadastroProfissao.data.create.job.id;
+   }
+
    const handleSubmit = useCallback(
       async (data) => {
          const profissao_id = data.profissao;
@@ -113,8 +147,9 @@ const CreateCv: React.FC = () => {
 
          console.log(data);
          console.log(escolaridade);
-         console.log(experiencia);
-         console.log(cursos);
+         // console.log(experiencia.length);
+         // console.log(experiencia);
+         // console.log(cursos);
 
          // const createEscolaridade = await api.post(
          //    `escolaridade/create/${user.id}`,
@@ -123,27 +158,45 @@ const CreateCv: React.FC = () => {
          //    }
          // );
 
-         const createExperiencia = await api.post(
-            `experiencia/create/${user.id}`,
-            {
-               experiencia,
-               profissao_id
+         var canCreateExperiencia = false;
+         experiencia.map((exp) => {
+            if (
+               exp.empresa !== "" ||
+               exp.cargo !== "" ||
+               exp.atribuicoes !== "" ||
+               exp.data_inicio !== "" ||
+               exp.data_fim
+            ) {
+               canCreateExperiencia = true;
             }
-         );
+         });
 
-         if(createExperiencia.data.status === 'error') {
+         if (canCreateExperiencia) {
+            const createExperiencia = await api.post(
+               `experiencia/create/${user.id}`,
+               {
+                  experiencia,
+                  profissao_id,
+               }
+            );
+
+            if (createExperiencia.data.status === "error") {
+               swal({
+                  title: "Ops!",
+                  text: createExperiencia.data.message,
+                  icon: "warning",
+               });
+            }
+         } else {
             swal({
                title: "Ops!",
-               text: createExperiencia.data.message,
+               text: "Existem alguns campos em brando",
                icon: "warning",
             });
          }
 
-         // if (createEscolaridade && createExperiencia) {
-         //    history.push("/dashboard");
-         // }
-
-         console.log(createExperiencia.data.status);
+         if (cursos.length >= 1 && cursos[0].titulo !== "") {
+         }
       },
       [escolaridade, experiencia, cursos]
    );
@@ -213,10 +266,10 @@ const CreateCv: React.FC = () => {
    const handleChangeFieldProfissao = useCallback(() => {
       setHiddenNewJobTitle(!hiddenNewJobTitle);
 
-      if(!hiddenNewJobTitle) {
-         setProfissaoCreate('');
+      if (!hiddenNewJobTitle) {
+         setProfissaoCreate("");
       }
-   }, [hiddenNewJobTitle])
+   }, [hiddenNewJobTitle]);
 
    return (
       <Container>
@@ -236,7 +289,6 @@ const CreateCv: React.FC = () => {
                   name="profissao"
                   jobsData={jobs}
                />
-
                {/* <Input
                   isHidden={hiddenNewJobTitle}
                   onChange={(e) => setProfissaoCreate(e.target.value)}
@@ -248,20 +300,28 @@ const CreateCv: React.FC = () => {
                <button type="button" onClick={handleChangeFieldProfissao} className="CadastroProfissao">
                   {hiddenNewJobTitle ? 'Cadastrar nova profissão' : ' Usar profissões cadastradas'}
                </button> */}
-
                <BoxInfo>
                   <h3>Escolaridade</h3>
                   <button onClick={handleAddEscolaridadeField} type="button">
                      <FiPlus size={32} color="#FFF" />
                   </button>
-               </BoxInfo>{" "}
-               <hr />
-               <br />
+               </BoxInfo>
                {escolaridade.map((element, index) => {
                   return (
                      <div key={element.id} className="boxInputDinamico">
                         <div className="escolatidadeContentMain">
                            <div className="contentTrash">
+                              <button
+                                 onClick={() =>
+                                    setEscolaridade((current) =>
+                                       current.filter(
+                                          (x) => x.id !== element.id
+                                       )
+                                    )
+                                 }
+                              >
+                                 <FiSave color="#000" />
+                              </button>
                               <button
                                  onClick={() =>
                                     setEscolaridade((current) =>
@@ -316,7 +376,7 @@ const CreateCv: React.FC = () => {
                                  );
                               }}
                            />
-                        </div>{" "}
+                        </div>
                         <br />
                      </div>
                   );
@@ -390,8 +450,8 @@ const CreateCv: React.FC = () => {
                            />
 
                            <Input
-                              name="atribuicao"
-                              placeholder="Atribuíções da função"
+                              name="ferramentas"
+                              placeholder="Ferramentas ou tecnologias utilizadas"
                               defaultValue={element.ferramentas}
                               onChange={(e) => {
                                  const ferramentas = e.target.value;
@@ -461,7 +521,7 @@ const CreateCv: React.FC = () => {
                </BoxInfo>{" "}
                <hr />
                <br />
-               {/* {cursos.map((element, index) => {
+               {cursos.map((element, index) => {
                   return (
                      <div key={element.id} className="boxInputDinamico">
                         <div className="cursos">
@@ -480,7 +540,6 @@ const CreateCv: React.FC = () => {
                            </div>
                            <Input
                               name="titulo"
-                              icon={FiUser}
                               placeholder="Nome do curso"
                               defaultValue={element.titulo}
                               onChange={(e) => {
@@ -495,7 +554,7 @@ const CreateCv: React.FC = () => {
                         </div>
                      </div>
                   );
-               })} */}
+               })}
                <Button type="submit">Cadastrar</Button>
             </Form>
          </Content>

@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import AuthProvider from '../../contexts/Authcontext';
-import { FiPlus, FiCode, FiPhoneCall } from 'react-icons/fi';
+import { FiPlus, FiCode, FiPhoneCall, FiTrash } from 'react-icons/fi';
 import { FaDoorOpen, FaCalculator } from 'react-icons/fa';
 
 import Code from '../../assets/ICON_JOBS/code.svg';
@@ -34,17 +34,9 @@ const Dashboard: React.FC = () => {
       if(!signed) {
          histoty.push('/');
       }
-
-      // async function getProfissoes() {
-      //    await api.get('profissoes').then(respose => {
-      //       setProfissoes(respose.data)
-      //    })
-      // } 
      
       async function getCurriculos() {
          await api.get(`curriculo/user/${user.id}`).then(response => {
-            // console.log(response.data);
-            // setProfissoes(response.data[0].profissao);
             setCurriculos(response.data);
          })
       } 
@@ -54,8 +46,13 @@ const Dashboard: React.FC = () => {
    }, [histoty, signed])
 
    const handleAddCurriculo = useCallback(() => {
-      // console.log('teste');
       histoty.push('/create-cv');
+   }, [histoty]);
+
+   const handleRemoveCurriculo = useCallback(async(id: string) => {
+      console.log(id);
+      const responseRemove = await api.delete(`/curriculo/remove/${id}`);
+      console.log(responseRemove);
    }, [histoty]);
 
    return (
@@ -78,8 +75,13 @@ const Dashboard: React.FC = () => {
                {curriculos.map(curr => {
                   return (
                      <div className="card" key={curr.profissao.id}>
-                        <h4>{curr.profissao.name}</h4> 
-                        <img src={`${process.env.REACT_APP_FILES}${curr.profissao.icon_path}`} alt=""/>
+                        <div className="card-header">
+                           <button onClick={() => handleRemoveCurriculo(curr.id)} ><FiTrash /> </button>
+                        </div>
+                        <div className="card-body">
+                           <h4>{curr.profissao.name}</h4> 
+                           <img src={`${process.env.REACT_APP_FILES}${curr.profissao.icon_path}`} alt=""/>
+                        </div>
                      </div>
                   )
                })}

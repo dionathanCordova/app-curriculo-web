@@ -1,17 +1,17 @@
-import styled from 'styled-components';
-import { shade } from 'polished';
+import styled from "styled-components";
+import { shade } from "polished";
 
 export const Container = styled.div`
-   font-family: 'Amaranth', sans-serif;
+   font-family: "Amaranth", sans-serif;
 
    > header {
       height: 144px;
-      background: #FFF;
+      background: #fff;
 
       display: flex;
-      align-items:center;
+      align-items: center;
 
-      div{
+      div {
          width: 100%;
          max-width: 1120px;
          margin: 0 auto;
@@ -22,7 +22,7 @@ export const Container = styled.div`
             height: 25px;
          }
       }
-   }  
+   }
 `;
 
 export const Content = styled.div`
@@ -34,44 +34,44 @@ export const Content = styled.div`
 
    width: 100%;
 
-   form{
+   form {
       position: relative;
-      
+
       margin: auto;
       margin-top: 200px;
       margin-bottom: 200px;
 
-      width:340px;
+      width: 340px;
       display: flex;
       flex-direction: column;
 
-      button.CadastroProfissao{
+      button.CadastroProfissao {
          border: 0;
          margin: 10px 0;
-         display:flex;
+         display: flex;
          justify-content: center;
-         align-items:center;
+         align-items: center;
          border-radius: 5px;
          height: 40px;
          border: 0;
          background: #333;
          transition: background 0.2s;
-         color: #FFF;
+         color: #fff;
          font-weight: 500;
 
-         :hover{
-            background: ${shade(0.5, '#FFF')};
+         :hover {
+            background: ${shade(0.5, "#FFF")};
          }
       }
 
-      h1{
+      h1 {
          color: #000;
          margin-bottom: 24px;
          font-size: 20px;
          text-align: left;
       }
 
-      h3{
+      h3 {
          margin-top: 20px;
          color: #000;
          margin-bottom: 24px;
@@ -86,35 +86,44 @@ export const Content = styled.div`
          text-decoration: none;
          transition: color 0.2s;
 
-         &:hover{
+         &:hover {
             color: ${shade(0.2, "#f4ede8")};
          }
       }
 
-      .cursos{
+      .cursos {
          margin-bottom: 20px;
       }
 
       .contentTrash {
-         display: flex;
+         button {
+            align-self: flex-end;
+            margin-left: auto;
+            background: red;
+         }
+         /* display: flex;
+         flex-direction: row;
+         background: red;
+         align-items: flex-end;
+         justify-content: flex-end; */
       }
 
-      .boxInputDinamico button{
+      .boxInputDinamico button {
          border: none;
          margin-left: auto;
       }
    }
-`
+`;
 
 export const BoxInfo = styled.div`
    display: flex;
    justify-content: space-between;
    align-items: center;
 
-   button{
-      display:flex;
+   button {
+      display: flex;
       justify-content: center;
-      align-items:center;
+      align-items: center;
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -122,8 +131,8 @@ export const BoxInfo = styled.div`
       background: #333;
       transition: background 0.2s;
 
-      :hover{
-         background: ${shade(0.5, '#FFF')};
+      :hover {
+         background: ${shade(0.5, "#FFF")};
       }
    }
-`
+`;

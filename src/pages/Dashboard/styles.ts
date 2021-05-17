@@ -49,16 +49,36 @@ export const ContentBody = styled.div`
       margin-top: 40px;
       min-height: 140px;
       display: flex;
-      justify-content: space-around;
-      align-items: center;
+      flex-direction: column;
+    
       border-radius: 10px;
       padding: 20px;
       background: #FFF;
       border: 1px solid #ddd;
       box-shadow: 10px 10px 53px -17px rgba(0,0,0,0.75);
 
-      img {
-         width: 40px;
+      .card-header{
+
+         margin-left: auto;
+         margin-top: -10px;
+         margin-bottom: 15px;
+
+         button{
+            margin: 0;
+            border: 0;
+            background: #FFF;
+         }
+      }
+
+      .card-body{
+         display: flex;
+         justify-content: space-around;
+         align-items: center;
+         flex-direction:row;
+         
+         img {
+            width: 40px;
+         }
       }
    }
 `
